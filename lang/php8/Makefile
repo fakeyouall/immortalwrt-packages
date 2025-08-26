@@ -6,7 +6,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=php
-PKG_VERSION:=8.4.8
+PKG_VERSION:=8.4.11
 PKG_RELEASE:=1
 
 PKG_MAINTAINER:=Michael Heimpold <mhei@heimpold.de>
@@ -16,7 +16,7 @@ PKG_CPE_ID:=cpe:/a:php:php
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
 PKG_SOURCE_URL:=https://www.php.net/distributions/
-PKG_HASH:=aa6a4d330b47eacd83e351658ba8c47747a1e4356456219cfb6d75e7838da091
+PKG_HASH:=04cd331380a8683a5c2503938eb51764d48d507c53ad4208d2c82e0eed779a00
 
 PKG_BUILD_PARALLEL:=1
 PKG_BUILD_FLAGS:=no-mips16
@@ -190,6 +190,7 @@ CONFIGURE_ARGS+= \
 	\
 	--without-valgrind \
 	--with-external-pcre \
+	--$(if $(CONFIG_PCRE2_JIT_ENABLED),with,without)-pcre-jit \
 	--with-zlib="$(STAGING_DIR)/usr"
 
 ifeq ($(CONFIG_LIBC_USE_GLIBC),y)
@@ -499,7 +500,7 @@ CONFIGURE_VARS+= \
 	php_cv_cc_rpath="no" \
 	ac_cv_php_xml2_config_path="$(STAGING_DIR)/host/bin/xml2-config" \
 	ac_cv_u8t_decompose=yes \
-	ac_cv_have_pcre2_jit=no
+	php_cv_have_pcre2_jit=$(if $(CONFIG_PCRE2_JIT_ENABLED),yes,no)
 
 define Package/php8/conffiles
 /etc/php.ini

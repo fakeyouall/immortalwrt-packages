@@ -6,13 +6,13 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=snort3
-PKG_VERSION:=3.9.1.0
+PKG_VERSION:=3.9.3.0
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_VERSION:=$(PKG_VERSION)
 PKG_SOURCE_URL:=https://github.com/snort3/snort3
-PKG_MIRROR_HASH:=982a56085c727ea0ea4717e92e0f6f339534520e80d0307cecf7d5eeda3811a5
+PKG_MIRROR_HASH:=aa70ac94fbae9e3080422360513b1f05f7ada14ba29d9c453f50afb8a96627f6
 
 PKG_MAINTAINER:=W. Michael Petullo <mike@flyn.org>, John Audia <therealgraysky@proton.me>
 PKG_LICENSE:=GPL-2.0-only
@@ -27,8 +27,9 @@ define Package/snort3
   SECTION:=net
   CATEGORY:=Network
   DEPENDS:= \
+	    +@!(TARGET_powerpc||TARGET_mips||TARGET_mips64||TARGET_mipsel):gperftools-runtime \
 	    +(TARGET_x86||TARGET_x86_64):hyperscan-runtime \
-	    +gperftools-runtime +libstdcpp +libdaq3 +libdnet +libopenssl +libpcap +libpcre2 \
+	    +libstdcpp +libdaq3 +libdnet +libopenssl +libpcap +libpcre2 \
 	    +libpthread +libuuid +zlib +libhwloc +libtirpc @HAS_LUAJIT_ARCH +luajit +libatomic \
 	    +kmod-nft-queue +liblzma +ucode +ucode-mod-fs +ucode-mod-uci
   TITLE:=Lightweight Network Intrusion Detection System
