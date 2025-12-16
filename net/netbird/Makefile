@@ -1,12 +1,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=netbird
-PKG_VERSION:=0.51.2
+PKG_VERSION:=0.59.12
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/netbirdio/netbird/tar.gz/v$(PKG_VERSION)?
-PKG_HASH:=98d6dba5c6b63c2742471ef8a09628e46bf0b2545f99a327537a60b27391c73e
+PKG_HASH:=2f0bdd45996f46f2e2c1dbf5a6712bba38a06cbfb7e4c00f814b0ffe149d7c6d
 
 PKG_MAINTAINER:=Wesley Gimenes <wehagy@proton.me>
 PKG_LICENSE:=BSD-3-Clause
@@ -41,7 +41,7 @@ define Package/netbird/description
 endef
 
 define Package/netbird/conffiles
-/etc/netbird/config.json
+/root/.config/netbird/
 endef
 
 define Package/netbird/install

@@ -8,12 +8,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=strongswan
-PKG_VERSION:=6.0.2
-PKG_RELEASE:=3
+PKG_VERSION:=6.0.3
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
 PKG_SOURCE_URL:=https://download.strongswan.org/ https://download2.strongswan.org/
-PKG_HASH:=b8bfc897b84001fd810a281918d6c9ce37503cae0f41b39c43d4aba0201277cf
+PKG_HASH:=288f2111f5c9f6ec85fc08fa835bf39232f5c4044969bb4de7b4335163b1efa9
 PKG_LICENSE:=GPL-2.0-or-later
 PKG_MAINTAINER:=Philip Prindeville <philipp@redfish-solutions.com>, Noel Kuntze <noel.kuntze@thermi.consulting>
 PKG_CPE_ID:=cpe:/a:strongswan:strongswan
@@ -108,6 +108,7 @@ PKG_CONFIG_DEPENDS:= \
 PKG_FIXUP:=autoreconf
 PKG_INSTALL:=1
 PKG_BUILD_PARALLEL:=1
+PKG_BUILD_DEPENDS:=python3/host
 
 include $(INCLUDE_DIR)/package.mk
 # strongswan-mod-mysql needs iconv
@@ -458,6 +459,7 @@ CONFIGURE_ARGS+= \
 	--enable-mgf1 \
 	--enable-mediation \
 	--with-systemdsystemunitdir=no \
+	PYTHON="python3" \
 	$(if $(CONFIG_PACKAGE_strongswan-charon-cmd),--enable-cmd,--disable-cmd) \
 	$(if $(CONFIG_PACKAGE_strongswan-mod-gmpdh),--enable-gmpdh,) \
 	$(if $(CONFIG_PACKAGE_strongswan-pki),--enable-pki,--disable-pki) \
