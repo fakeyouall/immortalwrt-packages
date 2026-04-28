@@ -55,12 +55,12 @@ fi
 # validate MAC address
 #
 case "${query_mac}" in
-	[0-9A-Fa-f][0-9A-Fa-f]:[0-9A-Fa-f][0-9A-Fa-f]:[0-9A-Fa-f][0-9A-Fa-f]:[0-9A-Fa-f][0-9A-Fa-f]:[0-9A-Fa-f][0-9A-Fa-f]:[0-9A-Fa-f][0-9A-Fa-f])
-		query_mac="$(tolower "${query_mac}")"
-		;;
-	*)
-		query_mac=""
-		;;
+[0-9A-Fa-f][0-9A-Fa-f]:[0-9A-Fa-f][0-9A-Fa-f]:[0-9A-Fa-f][0-9A-Fa-f]:[0-9A-Fa-f][0-9A-Fa-f]:[0-9A-Fa-f][0-9A-Fa-f]:[0-9A-Fa-f][0-9A-Fa-f])
+	query_mac="$(tolower "${query_mac}")"
+	;;
+*)
+	query_mac=""
+	;;
 esac
 
 # validate mode
@@ -177,7 +177,7 @@ function stopRefresh() {
 if [ "${nft_remote}" != "1" ] || [ -z "${nft_macremote}" ]; then
 	printf '%s\n' "
 		<div class=\"msg err\">
-			Remote allow is not enabled or no MAC addresses configured
+			Adblock Remote Allow is not enabled or no MAC addresses configured
 		</div>
 	</div></body></html>"
 	exit 0
@@ -185,7 +185,7 @@ fi
 if [ -z "${query_mac}" ]; then
 	printf '%s\n' "
 		<div class=\"msg err\">
-			Could not determine MAC address
+			MAC address could not be determined
 		</div>
 	</div></body></html>"
 	exit 0
@@ -195,9 +195,9 @@ fi
 #
 nft_macremote="$(tolower "${nft_macremote}")"
 case " ${nft_macremote} " in
-	*" ${query_mac} "*)
-		nft_authorized="1"
-		;;
+*" ${query_mac} "*)
+	nft_authorized="1"
+	;;
 esac
 if [ "${nft_authorized}" = "0" ]; then
 	printf '%s\n' "
@@ -210,7 +210,7 @@ fi
 
 # extract remaining timeout
 #
-remaining="$(nft list set inet adblock mac_remote 2>/dev/null | \
+remaining="$(nft list set inet adblock mac_remote 2>/dev/null |
 	awk -v mac="${query_mac}" '
 		$0 ~ mac {
 			for (i = 1; i <= NF; i++) {
@@ -246,7 +246,7 @@ if [ -z "${remaining}" ] && [ "${query_mode}" = "renew" ]; then
 			<div class=\"spinner\"></div>
 		</div>
 	</div></body></html>"
-	nft add element inet adblock mac_remote "{ ${query_mac//[!0-9a-f:]} }" >/dev/null 2>&1
+	nft add element inet adblock mac_remote "{ ${query_mac//[!0-9a-f:]/} }" >/dev/null 2>&1
 	printf '%s\n' "<script>window.location.href='?mac=${query_mac}';</script>"
 	exit 0
 fi
