@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=glib2
 PKG_VERSION:=2.82.0
-PKG_RELEASE:=2
+PKG_RELEASE:=3
 
 PKG_SOURCE:=glib-$(PKG_VERSION).tar.xz
 PKG_SOURCE_URL:=@GNOME/glib/$(basename $(PKG_VERSION))
@@ -72,7 +72,7 @@ endef
 define Package/glib2
 $(call Package/glib2/default)
   TITLE:=Full GLib 2.0 library
-  DEPENDS:+glib2-gthread +glib2-gio
+  DEPENDS:=+glib2-gthread +glib2-gio
 endef
 
 define Package/glib2-core/description
