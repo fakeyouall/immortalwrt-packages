@@ -9,14 +9,14 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=openvpn
 
-PKG_VERSION:=2.7.1
-PKG_RELEASE:=2
+PKG_VERSION:=2.7.7
+PKG_RELEASE:=1
 
 PKG_SOURCE_URL:=\
 	https://build.openvpn.net/downloads/releases/ \
 	https://swupdate.openvpn.net/community/releases/
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_HASH:=9858477ec2894a8a672974d8650dcb1af2eeffb468981a2b619f0fa387081167
+PKG_HASH:=3ab8f48fd6c26d49ba2333a092433949afdb5c85c0e6a1ff265784fbc04a2463
 
 PKG_MAINTAINER:=Alexandru Ardelean <ardeleanalex@gmail.com>
 
@@ -33,7 +33,7 @@ define Package/openvpn/Default
   TITLE:=Open source VPN solution using $(2)
   SECTION:=net
   CATEGORY:=Network
-  URL:=http://openvpn.net
+  URL:=https://openvpn.net/community/
   SUBMENU:=VPN
   MENU:=1
   DEPENDS:=+kmod-tun \
@@ -42,14 +42,16 @@ define Package/openvpn/Default
 	   +OPENVPN_$(1)_ENABLE_LZ4:liblz4 \
 	   +OPENVPN_$(1)_ENABLE_IPROUTE2:ip \
 	   +OPENVPN_$(1)_ENABLE_DCO:libnl-genl \
+	   +OPENVPN_$(1)_ENABLE_DCO:kmod-ovpn-backports \
 	   $(3)
   VARIANT:=$(1)
+  DEFAULT_VARIANT:=$(4)
   PROVIDES:=openvpn openvpn-crypto
 endef
 
-Package/openvpn-openssl=$(call Package/openvpn/Default,openssl,OpenSSL,+PACKAGE_openvpn-openssl:libopenssl)
+Package/openvpn-openssl=$(call Package/openvpn/Default,openssl,OpenSSL,+PACKAGE_openvpn-openssl:libopenssl,1)
 Package/openvpn-mbedtls=$(call Package/openvpn/Default,mbedtls,mbedTLS,+PACKAGE_openvpn-mbedtls:libmbedtls)
-Package/openvpn-wolfssl=$(call Package/openvpn/Default,wolfssl,WolfSSL,+PACKAGE_openvpn-wolfssl:libwolfssl)
+Package/openvpn-wolfssl=$(call Package/openvpn/Default,wolfssl,WolfSSL,+PACKAGE_openvpn-wolfssl:libwolfssl @BROKEN)
 
 define Package/openvpn/config/Default
 	source "$(SOURCE)/Config-$(1).in"

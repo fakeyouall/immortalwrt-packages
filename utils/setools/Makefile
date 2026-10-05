@@ -7,7 +7,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=setools
 PKG_VERSION:=4.6.0
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
 PKG_SOURCE_URL:=https://github.com/SELinuxProject/setools/releases/download/$(PKG_VERSION)
@@ -30,7 +30,7 @@ define Package/setools/Default
   SECTION:=utils
   CATEGORY:=Utilities
   TITLE:=SELinux policy analysis tool
-  URL:=http://selinuxproject.org/page/Main_Page
+  URL:=https://github.com/selinuxproject
   DEPENDS:=+python3-light +python3-logging +python3-setools
 endef
 
@@ -44,8 +44,8 @@ define Package/python3-setools
   CATEGORY:=Languages
   SUBMENU:=Python
   TITLE:=SETools Python bindings
-  URL:=http://selinuxproject.org/page/Main_Page
-  DEPENDS:=+python3-light +python3-logging +libselinux +libsepol
+  URL:=https://github.com/selinuxproject
+  DEPENDS:=+python3-light +python3-logging +python3-urllib +libselinux +libsepol
 endef
 
 define Package/python3-setools/description

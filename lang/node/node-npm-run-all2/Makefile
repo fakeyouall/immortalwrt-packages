@@ -6,13 +6,13 @@ include $(TOPDIR)/rules.mk
 
 PKG_NPM_NAME:=npm-run-all2
 PKG_NAME:=node-$(PKG_NPM_NAME)
-PKG_VERSION:=8.0.4
+PKG_VERSION:=9.0.3
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NPM_NAME)-$(PKG_VERSION).tgz
 PKG_SOURCE_URL:=https://mirrors.tencent.com/npm/$(PKG_NPM_NAME)/-/ \
                 https://registry.npmjs.org/$(PKG_NPM_NAME)/-/
-PKG_HASH:=bcd8bd34feaca2e531000f5a28cea70d5a2a25517ef6744e587994b58f0b951b
+PKG_HASH:=b5830971deac73fbbfa8a66aa3f73a5be642d20ec783c97925be91305f01dd4d
 
 PKG_MAINTAINER:=Hirokazu MORIKAWA <morikw2@gmail.com>
 PKG_LICENSE:=MIT
@@ -68,12 +68,13 @@ define Package/node-npm-run-all2/install
 	$(INSTALL_DIR) $(1)/usr/lib/node/$(PKG_NPM_NAME)
 	$(CP) $(PKG_BUILD_DIR)/{package.json,LICENSE,*.md} \
 		$(1)/usr/lib/node/$(PKG_NPM_NAME)/
-	$(CP) $(PKG_BUILD_DIR)/{bin,lib,node_modules,docs} \
+	$(CP) $(PKG_BUILD_DIR)/{bin,lib,node_modules,types} \
 		$(1)/usr/lib/node/$(PKG_NPM_NAME)/
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(LN) ../lib/node/$(PKG_NPM_NAME)/bin/run-p/index.js $(1)/usr/bin/run-p
 	$(LN) ../lib/node/$(PKG_NPM_NAME)/bin/run-s/index.js $(1)/usr/bin/run-s
 	$(LN) ../lib/node/$(PKG_NPM_NAME)/bin/npm-run-all/index.js $(1)/usr/bin/npm-run-all
+	$(LN) ../lib/node/$(PKG_NPM_NAME)/bin/npm-run-all/index.js $(1)/usr/bin/npm-run-all2
 	$(INSTALL_DIR) $(1)/usr/lib/node_modules
 	$(LN) ../node/$(PKG_NPM_NAME) $(1)/usr/lib/node_modules/$(PKG_NPM_NAME)
 	chmod +x $(1)/usr/lib/node/$(PKG_NPM_NAME)/bin/run-p/index.js

@@ -6,13 +6,13 @@ include $(TOPDIR)/rules.mk
 
 PKG_NPM_NAME:=homebridge-hue
 PKG_NAME:=node-$(PKG_NPM_NAME)
-PKG_VERSION:=0.15.4
+PKG_VERSION:=0.15.9
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NPM_NAME)-$(PKG_VERSION).tgz
 PKG_SOURCE_URL:=https://mirrors.tencent.com/npm/$(PKG_NPM_NAME)/-/ \
                 https://registry.npmjs.org/$(PKG_NPM_NAME)/-/
-PKG_HASH:=cb6ff88253da361d78af49fe71c9f9cc5181be2f85991ffe7222814a5568553c
+PKG_HASH:=5e3ae151283263a9d1e709e547e2709e8b2e6100b4a3323586b0f90bdd0c151f
 
 PKG_MAINTAINER:=Hirokazu MORIKAWA <morikw2@gmail.com>
 PKG_LICENSE:=Apache-2.0

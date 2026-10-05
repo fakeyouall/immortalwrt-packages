@@ -7,26 +7,26 @@ include $(TOPDIR)/rules.mk
 PKG_NAME:=node
 
 ifeq ($(CONFIG_NODEJS_22),y)
-PKG_VERSION:=22.22.2
+PKG_VERSION:=22.23.2
 PKG_RELEASE:=1
-PKG_HASH:=f4b9606f33aef725a77b6292460102b48b80902571a8bb94cd769837ee0577df
+PKG_HASH:=cdaed46fcd8923a55974b7bbc7caaadeaaf7aed60cc137e59837b72f575ef641
 PATCH_DIR:=./patches/v22.x
-NODEJS_BIN_SUM:=978978a635eef872fa68beae09f0aad0bbbae6757e444da80b570964a97e62a3
+NODEJS_BIN_SUM:=b294a556e639d64338823920e5866c21c02741742d2e1529ee1a225c1ec9252a
 NODE_MODULE_VERSION:=127
 else
-ifeq ($(CONFIG_NODEJS_25),y)
-PKG_VERSION:=25.9.0
+ifeq ($(CONFIG_NODEJS_26),y)
+PKG_VERSION:=26.9.0
 PKG_RELEASE:=1
-PKG_HASH:=d55d77187039d4cd85c732f76838f44e3be552054473459dfa9cc0eb611ea664
-PATCH_DIR:=./patches/v25.x
-NODEJS_BIN_SUM:=134e55b2408448a219760fe04dc44d6851f9de8a79549021ffd870e9082d9e7b
-NODE_MODULE_VERSION:=141
+PKG_HASH:=26ca5350af859c255118479b08a37075cbc17cdafffe47436d72e4be107e2760
+PATCH_DIR:=./patches/v26.x
+NODEJS_BIN_SUM:=03d9104fc4f19652e74480fed11c023d75981464b7292f21a601c3f95ce7d90d
+NODE_MODULE_VERSION:=147
 else
-PKG_VERSION:=24.14.1
+PKG_VERSION:=24.21.0
 PKG_RELEASE:=1
-PKG_HASH:=8298cf1f5774093ca819f41b8dd392fd2cff058688b4d5c8805026352e2d31b3
+PKG_HASH:=622424efb5dc0c26c93fbb619ff10737ee289c605b837c88778e186925d82777
 PATCH_DIR:=./patches/v24.x
-NODEJS_BIN_SUM:=ace9fa104992ed0829642629c46ca7bd7fd6e76278cb96c958c4b387d29658ea
+NODEJS_BIN_SUM:=6e1db87ef58b8819e5d5402eff1536491b18edd8eb7bee5ef7897876e88dc5ff
 NODE_MODULE_VERSION:=137
 endif
 endif
@@ -106,8 +106,8 @@ define Package/node/config
 		config NODEJS_24
 			bool "24.x Active LTS"
 
-		config NODEJS_25
-			bool "25.x Current"
+		config NODEJS_26
+			bool "26.x Current"
 	endchoice
 
 	if PACKAGE_node
@@ -126,6 +126,9 @@ define Package/node/config
 			config NODEJS_ICU_SYSTEM
 				depends on ARCH_64BIT
 				bool "system-icu"
+
+			config NODEJS_FULL_ICU
+				bool "full-icu"
 		endchoice
 	endif
 
@@ -181,7 +184,9 @@ CONFIGURE_ARGS:= \
 	--shared-openssl \
 	--shared-nghttp2 \
 	--shared-cares \
-	--with-intl=$(if $(CONFIG_NODEJS_ICU_SMALL),small-icu,$(if $(CONFIG_NODEJS_ICU_SYSTEM),system-icu,none)) \
+	$(if $(CONFIG_NODEJS_26),--v8-disable-temporal-support) \
+	$(if $(CONFIG_NODEJS_26),$(if $(CONFIG_ARCH_64BIT),,--without-ffi)) \
+	--with-intl=$(if $(CONFIG_NODEJS_ICU_SMALL),small-icu,$(if $(CONFIG_NODEJS_ICU_SYSTEM),system-icu,$(if $(CONFIG_NODEJS_FULL_ICU),full-icu,none))) \
 	$(if $(findstring +neon",$(CONFIG_CPU_TYPE)),--with-arm-fpu=neon) \
 	$(if $(findstring +neon-vfpv4",$(CONFIG_CPU_TYPE)),--with-arm-fpu=neon) \
 	$(if $(findstring +vfpv4",$(CONFIG_CPU_TYPE)),--with-arm-fpu=vfpv3) \
